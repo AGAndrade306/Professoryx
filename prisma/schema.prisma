@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Usuario {
@@ -21,10 +22,10 @@ model Materia {
   id                     String   @id @default(uuid())
   userId                 String
   nome                   String
-  ementa                 String
-  conteudoProgramatico   String
+  ementa                 String   @db.Text
+  conteudoProgramatico   String   @db.Text
   estiloVisualPadrao     String   @default("tech-academico")
-  estiloVisualCustom     String?
+  estiloVisualCustom     String?  @db.Text
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
   usuario                Usuario  @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -37,15 +38,15 @@ model Aula {
   materiaId           String
   tema                String
   quantidadeSlides    Int      @default(10)
-  linksExtras         String?
-  materialExtraTexto  String?
-  observacoesIA       String?
+  linksExtras         String?  @db.Text
+  materialExtraTexto  String?  @db.Text
+  observacoesIA       String?  @db.Text
   perfilPublico       String   @default("graduacao")
   nivelAula           String   @default("intermediaria")
   status              String   @default("rascunho")
-  resultadoPesquisa   String?
-  promptFinalEnviado  String?
-  respostaOpenAI      String?
+  resultadoPesquisa   String?  @db.Text
+  promptFinalEnviado  String?  @db.Text
+  respostaOpenAI      String?  @db.Text
   tituloAula          String?
   gammaGenerationId   String?
   gammaPreviewUrl     String?
@@ -62,8 +63,8 @@ model Slide {
   aulaId        String
   numero        Int
   titulo        String
-  conteudo      String
-  observacoes   String?
+  conteudo      String   @db.Text
+  observacoes   String?  @db.Text
   editadoManual Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
