@@ -2,16 +2,45 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Zap, ArrowRight, BookOpen, GraduationCap, Sparkles } from 'lucide-react'
+import { Zap, ArrowRight, BookOpen, GraduationCap, Sparkles, Loader2 } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
   const [isLogin, setIsLogin] = useState(true)
+  const [nome, setNome] = useState('')
+  const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Mock login — redirect to dashboard
-    router.push('/dashboard')
+    setError('')
+    setLoading(true)
+
+    try {
+      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register'
+      const body = isLogin ? { email, senha } : { nome, email, senha }
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error || 'Erro inesperado')
+        return
+      }
+
+      router.push('/dashboard')
+    } catch {
+      setError('Erro de conexão. Tente novamente.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -70,32 +99,69 @@ export default function LoginPage() {
             {isLogin ? 'Entre para preparar suas aulas com IA.' : 'Crie sua conta e comece agora.'}
           </p>
 
+          {error && (
+            <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
               <div>
                 <label className="label">Nome completo</label>
-                <input type="text" className="input-field" placeholder="Seu nome" />
+                <input
+                  type="text"
+                  className="input-field"
+                  placeholder="Seu nome"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  required={!isLogin}
+                />
               </div>
             )}
             <div>
               <label className="label">E-mail</label>
-              <input type="email" className="input-field" placeholder="seu@email.com" />
+              <input
+                type="email"
+                className="input-field"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
             <div>
               <label className="label">Senha</label>
-              <input type="password" className="input-field" placeholder="••••••••" />
+              <input
+                type="password"
+                className="input-field"
+                placeholder="••••••••"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                required
+                minLength={6}
+              />
             </div>
 
-            <button type="submit" className="btn-primary w-full py-3 text-base mt-2">
-              {isLogin ? 'Entrar' : 'Criar conta'}
-              <ArrowRight className="w-4 h-4" />
+            <button type="submit" className="btn-primary w-full py-3 text-base mt-2" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  {isLogin ? 'Entrando...' : 'Criando conta...'}
+                </>
+              ) : (
+                <>
+                  {isLogin ? 'Entrar' : 'Criar conta'}
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
           </form>
 
           <p className="text-center text-text-muted text-sm mt-6">
             {isLogin ? 'Não tem conta? ' : 'Já tem conta? '}
             <button
-              onClick={() => setIsLogin(!isLogin)}
+              onClick={() => { setIsLogin(!isLogin); setError('') }}
               className="text-primary hover:underline font-medium"
             >
               {isLogin ? 'Criar conta' : 'Fazer login'}

@@ -1,18 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { MOCK_USER } from '@/lib/mock-user'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // Ensure mock user exists
-    await prisma.usuario.upsert({
-      where: { id: MOCK_USER.id },
-      update: {},
-      create: { id: MOCK_USER.id, nome: MOCK_USER.nome, email: MOCK_USER.email, senha: 'mock' },
-    })
+    const userId = request.headers.get('x-user-id')!
 
     const materias = await prisma.materia.findMany({
-      where: { userId: MOCK_USER.id },
+      where: { userId },
       orderBy: { updatedAt: 'desc' },
     })
     return NextResponse.json(materias)
@@ -24,6 +18,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id')!
     const body = await request.json()
     const { nome, ementa, conteudoProgramatico, estiloVisualPadrao, estiloVisualCustom } = body
 
@@ -31,16 +26,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Campos obrigatórios não preenchidos' }, { status: 400 })
     }
 
-    // Ensure mock user exists
-    await prisma.usuario.upsert({
-      where: { id: MOCK_USER.id },
-      update: {},
-      create: { id: MOCK_USER.id, nome: MOCK_USER.nome, email: MOCK_USER.email, senha: 'mock' },
-    })
-
     const materia = await prisma.materia.create({
       data: {
-        userId: MOCK_USER.id,
+        userId,
         nome,
         ementa,
         conteudoProgramatico,

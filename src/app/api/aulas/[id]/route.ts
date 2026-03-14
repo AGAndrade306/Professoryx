@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { MOCK_USER } from '@/lib/mock-user'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
+    const userId = request.headers.get('x-user-id')!
     const aula = await prisma.aula.findFirst({
-      where: { id, userId: MOCK_USER.id },
+      where: { id, userId },
       include: { materia: true, slides: { orderBy: { numero: 'asc' } } },
     })
 
@@ -24,7 +24,13 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
+    const userId = request.headers.get('x-user-id')!
     const body = await request.json()
+
+    const existing = await prisma.aula.findFirst({ where: { id, userId } })
+    if (!existing) {
+      return NextResponse.json({ error: 'Aula não encontrada' }, { status: 404 })
+    }
 
     const aula = await prisma.aula.update({
       where: { id },
@@ -42,6 +48,13 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
+    const userId = request.headers.get('x-user-id')!
+
+    const existing = await prisma.aula.findFirst({ where: { id, userId } })
+    if (!existing) {
+      return NextResponse.json({ error: 'Aula não encontrada' }, { status: 404 })
+    }
+
     await prisma.aula.delete({ where: { id } })
     return NextResponse.json({ success: true })
   } catch (error) {

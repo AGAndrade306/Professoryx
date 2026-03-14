@@ -1,7 +1,8 @@
 'use client'
 
+import { useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard,
   BookOpen,
@@ -11,6 +12,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  LogOut,
+  User,
 } from 'lucide-react'
 import { useStore } from '@/hooks/useStore'
 import { cn } from '@/lib/utils'
@@ -24,7 +27,23 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname()
-  const { sidebarOpen, toggleSidebar } = useStore()
+  const router = useRouter()
+  const { user, setUser, sidebarOpen, toggleSidebar } = useStore()
+
+  useEffect(() => {
+    if (!user) {
+      fetch('/api/auth/me')
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => { if (data?.user) setUser(data.user) })
+        .catch(() => {})
+    }
+  }, [user, setUser])
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    setUser(null)
+    router.push('/login')
+  }
 
   return (
     <aside
@@ -80,6 +99,40 @@ export default function Sidebar() {
           </Link>
         </div>
       )}
+
+      {/* User & Logout */}
+      <div className="border-t border-border-subtle p-3">
+        {sidebarOpen ? (
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 shrink-0">
+              <User className="w-4 h-4 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-text-primary truncate">
+                {user?.nome || '...'}
+              </p>
+              <p className="text-xs text-text-muted truncate">
+                {user?.email || ''}
+              </p>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="p-1.5 rounded-lg text-text-muted hover:text-red-400 hover:bg-red-400/10 transition-colors"
+              title="Sair"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={handleLogout}
+            className="flex items-center justify-center w-full p-2.5 rounded-lg text-text-muted hover:text-red-400 hover:bg-red-400/10 transition-colors"
+            title="Sair"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
+        )}
+      </div>
 
       {/* Toggle */}
       <button

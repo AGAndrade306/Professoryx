@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { MOCK_USER } from '@/lib/mock-user'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id')!
+
     const aulas = await prisma.aula.findMany({
-      where: { userId: MOCK_USER.id },
+      where: { userId },
       include: { materia: true, slides: { orderBy: { numero: 'asc' } } },
       orderBy: { updatedAt: 'desc' },
     })
@@ -18,6 +19,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const userId = request.headers.get('x-user-id')!
     const body = await request.json()
     const { materiaId, tema, quantidadeSlides, linksExtras, materialExtraTexto, observacoesIA, perfilPublico, nivelAula } = body
 
@@ -27,7 +29,7 @@ export async function POST(request: NextRequest) {
 
     const aula = await prisma.aula.create({
       data: {
-        userId: MOCK_USER.id,
+        userId,
         materiaId,
         tema,
         quantidadeSlides: quantidadeSlides || 10,
