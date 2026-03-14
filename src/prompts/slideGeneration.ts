@@ -2,7 +2,7 @@ import type { ConteudoConsolidado } from '@/types'
 
 export function buildSlideGenerationPrompt(data: ConteudoConsolidado, quantidadeSlides: number, perfilPublico: string, nivelAula: string): string {
   const fontesTexto = data.fontes
-    .map((f, i) => `--- Fonte ${i + 1}: ${f.titulo} (${f.url}) ---\n${f.conteudo.slice(0, 3000)}`)
+    .map((f, i) => `--- Fonte ${i + 1}: ${f.titulo} (${f.url}) ---\n${f.conteudo.slice(0, 5000)}`)
     .join('\n\n')
 
   const perfilMap: Record<string, string> = {
@@ -43,13 +43,14 @@ INSTRUÇÕES:
 2. O primeiro slide deve ser o slide de título/abertura da aula.
 3. Os slides centrais devem desenvolver o tema de forma progressiva e lógica.
 4. O último slide deve conter uma síntese, conclusão ou perguntas para reflexão.
-5. Cada slide deve ter um título claro e conteúdo bem estruturado.
-6. Use tópicos, definições, exemplos práticos, comparações e fluxos quando adequado.
-7. Evite texto excessivo — cada slide deve ser conciso e didático.
+5. Cada slide deve ter um título claro e conteúdo DENSO e informativo.
+6. IMPORTANTE: Extraia e incorpore dados concretos, estatísticas, datas, nomes, exemplos reais e citações do material de referência coletado acima. Não generalize — use as informações específicas das fontes.
+7. Cada slide deve ter parágrafos explicativos completos, não apenas bullet points soltos. Combine texto corrido com tópicos quando necessário para dar profundidade.
 8. Use terminologia correta quando a matéria for técnica.
-9. NÃO invente informações — baseie-se apenas no material fornecido.
+9. NÃO invente informações — baseie-se no material fornecido, mas elabore e explique os conceitos com profundidade.
 10. Adapte a linguagem ao perfil do público-alvo.
 11. Mantenha coerência e progressão entre os slides.
+12. Cada slide deve ter no mínimo 150 palavras de conteúdo — priorize densidade informacional e valor acadêmico.
 
 ESTILO VISUAL DESEJADO: ${data.estiloVisualPadraoMateria || 'tech acadêmico'}
 

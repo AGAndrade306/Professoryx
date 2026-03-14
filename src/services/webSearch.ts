@@ -96,9 +96,9 @@ async function extractContent(url: string, fallbackTitle: string): Promise<Fonte
 
     let content = await res.text()
 
-    // Limitar tamanho do conteúdo (máx ~4000 chars por fonte)
-    if (content.length > 4000) {
-      content = content.slice(0, 4000) + '...'
+    // Limitar tamanho do conteúdo (máx ~6000 chars por fonte)
+    if (content.length > 6000) {
+      content = content.slice(0, 6000) + '...'
     }
 
     // Extrair título do conteúdo se disponível (primeira linha geralmente é o título)

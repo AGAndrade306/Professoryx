@@ -28,16 +28,16 @@ export async function generateSlides(
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages: [
           {
             role: 'system',
-            content: 'Você é um assistente especializado em criar estruturas de aulas acadêmicas. Sempre responda em JSON válido, sem markdown.',
+            content: 'Você é um assistente especializado em criar aulas acadêmicas com alto nível de profundidade e densidade informacional. Use dados concretos, estatísticas, exemplos reais e referências das fontes fornecidas. Sempre responda em JSON válido, sem markdown.',
           },
           { role: 'user', content: prompt },
         ],
         temperature: 0.7,
-        max_tokens: 4000,
+        max_tokens: 10000,
         response_format: { type: 'json_object' },
       }),
       signal: AbortSignal.timeout(60000),
