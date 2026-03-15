@@ -32,7 +32,15 @@ export async function generateSlides(
         messages: [
           {
             role: 'system',
-            content: 'Você é um assistente especializado em criar aulas acadêmicas com alto nível de profundidade e densidade informacional. Use dados concretos, estatísticas, exemplos reais e referências das fontes fornecidas. Sempre responda em JSON válido, sem markdown.',
+            content: `Você é um assistente especializado em criar aulas acadêmicas. Sempre responda em JSON válido, sem markdown.
+
+REGRA CRÍTICA: O campo "conteudo" de cada slide (exceto o primeiro e o último) DEVE conter obrigatoriamente estas 4 seções nesta ordem:
+1. Parágrafo explicativo (2-3 frases em texto corrido)
+2. Pontos-chave (linhas começando com •)
+3. Exemplo prático (linha começando com "Exemplo:")
+4. Dica ou destaque (linha começando com "Dica:" ou "Importante:")
+
+Se um slide não contiver essas 4 seções, ele é INVÁLIDO. Siga o formato exato do exemplo fornecido no prompt.`,
           },
           { role: 'user', content: prompt },
         ],
