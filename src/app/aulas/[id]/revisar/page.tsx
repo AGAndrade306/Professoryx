@@ -119,25 +119,34 @@ export default function RevisarAulaPage() {
     setGeneratingGamma(true)
     try {
       const res = await fetch(`/api/aulas/${params.id}/gerar-gamma`, { method: 'POST' })
-      if (res.ok) {
-        const blob = await res.blob()
-        const disposition = res.headers.get('Content-Disposition') || ''
-        const filenameMatch = disposition.match(/filename="?(.+?)"?$/)
-        const filename = filenameMatch ? decodeURIComponent(filenameMatch[1]) : `${aula?.tituloAula || aula?.tema || 'apresentacao'}.pptx`
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erro desconhecido' }))
+        toast.error(err.error || 'Erro ao gerar apresentação')
+        return
+      }
 
+      const contentType = res.headers.get('Content-Type') || ''
+      const isFallbackPptx = contentType.includes('presentationml')
+
+      if (isFallbackPptx) {
+        // Fallback PPTX — download direto
+        const blob = await res.blob()
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url
-        a.download = filename
+        a.download = `${aula?.tituloAula || aula?.tema || 'apresentacao'}.pptx`
         document.body.appendChild(a)
         a.click()
         document.body.removeChild(a)
         URL.revokeObjectURL(url)
-
-        toast.success('Apresentação baixada com sucesso!')
+        toast.success('Apresentação PPTX baixada!')
         fetchAula()
       } else {
-        toast.error('Erro ao gerar apresentação')
+        // Gamma API — redirecionar para página final
+        const data = await res.json()
+        setAula(data)
+        toast.success('Apresentação gerada no Gamma!')
+        router.push(`/aulas/${params.id}/final`)
       }
     } catch {
       toast.error('Erro ao gerar apresentação')
