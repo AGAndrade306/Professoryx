@@ -42,7 +42,7 @@ export async function generatePresentation(payload: {
       amount: 'medium',
       tone: 'Profissional e acadêmico, claro e didático',
       audience: 'Estudantes universitários e professores',
-      language: 'pt-BR',
+      language: 'pt-br',
     },
     imageOptions: {
       source: 'webFreeToUse',
