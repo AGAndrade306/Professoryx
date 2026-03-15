@@ -42,15 +42,42 @@ INSTRUÇÕES:
 1. Crie exatamente ${quantidadeSlides} slides para esta aula.
 2. O primeiro slide deve ser o slide de título/abertura da aula.
 3. Os slides centrais devem desenvolver o tema de forma progressiva e lógica.
-4. O último slide deve conter uma síntese, conclusão ou perguntas para reflexão.
-5. Cada slide deve ter um título claro e conteúdo DENSO e informativo.
-6. IMPORTANTE: Extraia e incorpore dados concretos, estatísticas, datas, nomes, exemplos reais e citações do material de referência coletado acima. Não generalize — use as informações específicas das fontes.
-7. Cada slide deve ter parágrafos explicativos completos, não apenas bullet points soltos. Combine texto corrido com tópicos quando necessário para dar profundidade.
-8. Use terminologia correta quando a matéria for técnica.
-9. NÃO invente informações — baseie-se no material fornecido, mas elabore e explique os conceitos com profundidade.
-10. Adapte a linguagem ao perfil do público-alvo.
-11. Mantenha coerência e progressão entre os slides.
-12. Cada slide deve ter no mínimo 150 palavras de conteúdo — priorize densidade informacional e valor acadêmico.
+4. O último slide deve conter uma síntese, conclusão, atividade prática ou perguntas para reflexão.
+5. Adapte a linguagem ao perfil do público-alvo.
+6. Mantenha coerência e progressão entre os slides.
+7. Use terminologia correta quando a matéria for técnica.
+8. NÃO invente informações — baseie-se no material fornecido, mas elabore e explique os conceitos com profundidade.
+9. Cada slide deve ter no mínimo 150 palavras de conteúdo.
+
+ESTRUTURA OBRIGATÓRIA DE CADA SLIDE:
+Cada slide DEVE seguir esta estrutura de conteúdo (nesta ordem):
+
+a) PARÁGRAFO EXPLICATIVO: Comece sempre com 2-4 frases explicativas em texto corrido que introduzam e contextualizem o conceito do slide. Esse parágrafo deve ser claro, didático e dar ao aluno uma compreensão geral antes de entrar nos detalhes.
+
+b) PONTOS-CHAVE: Liste os pontos principais em tópicos com marcadores (•). Cada tópico pode ter sub-itens com travessão (-) quando necessário para detalhar.
+
+c) EXEMPLO PRÁTICO: Inclua pelo menos um exemplo concreto e realista, introduzido por "Exemplo:" — que ilustre o conceito na prática. Use dados, nomes de empresas, situações do dia a dia ou cenários profissionais reais.
+
+d) DICA OU DESTAQUE (quando aplicável): Inclua uma "Dica:" ou "Importante:" com uma observação prática, alerta ou recomendação relevante para o aluno.
+
+IMPORTANTE: Extraia e incorpore dados concretos, estatísticas, datas, nomes, exemplos reais e citações do material de referência coletado acima. Não generalize — use as informações específicas das fontes.
+
+EXEMPLO DE SLIDE BEM ESTRUTURADO:
+---
+Título: "Risco de Crédito"
+Conteúdo:
+"O risco de crédito ocorre quando um cliente ou devedor não paga suas obrigações financeiras. Este é um dos riscos mais comuns em empresas que trabalham com vendas a prazo, financiamento ou parcelamentos, e pode impactar diretamente o fluxo de caixa da organização.
+
+Esse risco é comum em empresas que:
+• Vendem a prazo
+• Oferecem financiamento próprio
+• Trabalham com parcelamentos longos
+• Possuem alta concentração de receita em poucos clientes
+
+Exemplo: Uma empresa que vende produtos em 30 ou 60 dias pode enfrentar perdas significativas se o cliente não pagar. Em 2023, a taxa de inadimplência de empresas no Brasil atingiu 6,5 milhões de CNPJs, segundo a Serasa.
+
+Dica: Por isso muitas empresas utilizam análise de crédito antes de conceder prazos de pagamento — ferramentas como Serasa, SPC e scoring bancário ajudam a reduzir esse risco."
+---
 
 ESTILO VISUAL DESEJADO: ${data.estiloVisualPadraoMateria || 'tech acadêmico'}
 
@@ -61,8 +88,8 @@ Retorne SOMENTE um JSON válido no seguinte formato (sem markdown, sem comentár
     {
       "numero": 1,
       "titulo": "Título do slide",
-      "conteudo": "Conteúdo do slide com formatação em tópicos quando adequado",
-      "observacoes": "Observações para o professor (ex: mencionar exemplo X, fazer pergunta Y)"
+      "conteudo": "Conteúdo do slide seguindo a estrutura obrigatória: parágrafo explicativo + pontos-chave + exemplo prático + dica",
+      "observacoes": "Observações para o professor (ex: mencionar exemplo X, fazer pergunta Y, propor atividade Z)"
     }
   ]
 }`
