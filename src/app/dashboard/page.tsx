@@ -6,7 +6,8 @@ import AppShell from '@/components/layout/AppShell'
 import MetricCard from '@/components/ui/MetricCard'
 import StatusBadge from '@/components/ui/StatusBadge'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
-import { BookOpen, GraduationCap, Clock, PlusCircle, Zap, ArrowRight, Sparkles } from 'lucide-react'
+import Image from 'next/image'
+import { BookOpen, GraduationCap, Clock, PlusCircle, ArrowRight, Sparkles } from 'lucide-react'
 import { formatDate, truncate } from '@/lib/utils'
 import type { Materia, Aula, StatusAula } from '@/types'
 
@@ -42,9 +43,7 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
-              <Zap className="w-5 h-5 text-primary" />
-            </div>
+            <Image src="/icon-192.png" alt="Professoryx" width={36} height={36} className="rounded-lg" />
             <h1 className="font-[family-name:var(--font-orbitron)] text-2xl lg:text-3xl font-bold">
               Dashboard
             </h1>

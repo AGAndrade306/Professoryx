@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Zap, ArrowRight, BookOpen, GraduationCap, Sparkles, Loader2 } from 'lucide-react'
+import Image from 'next/image'
+import { ArrowRight, BookOpen, GraduationCap, Sparkles, Loader2 } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -54,9 +55,7 @@ export default function LoginPage() {
 
         <div className="relative z-10 text-center">
           <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
-              <Zap className="w-8 h-8 text-primary" />
-            </div>
+            <Image src="/icon-192.png" alt="Professoryx" width={56} height={56} className="rounded-xl" />
             <h1 className="font-[family-name:var(--font-orbitron)] text-4xl font-bold gradient-text">
               Professoryx
             </h1>
@@ -88,7 +87,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center justify-center gap-2 mb-8">
-            <Zap className="w-6 h-6 text-primary" />
+            <Image src="/icon-192.png" alt="Professoryx" width={32} height={32} className="rounded-lg" />
             <span className="font-[family-name:var(--font-orbitron)] text-2xl font-bold gradient-text">Professoryx</span>
           </div>
 

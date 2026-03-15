@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard,
@@ -11,7 +12,6 @@ import {
   PlusCircle,
   ChevronLeft,
   ChevronRight,
-  Zap,
   LogOut,
   User,
 } from 'lucide-react'
@@ -54,9 +54,7 @@ export default function Sidebar() {
     >
       {/* Logo */}
       <div className="flex items-center gap-3 px-4 h-16 border-b border-border-subtle">
-        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 shrink-0">
-          <Zap className="w-5 h-5 text-primary" />
-        </div>
+        <Image src="/icon-192.png" alt="Professoryx" width={40} height={40} className="rounded-lg shrink-0" />
         {sidebarOpen && (
           <span className="font-[family-name:var(--font-orbitron)] font-bold text-lg gradient-text whitespace-nowrap">
             Professoryx

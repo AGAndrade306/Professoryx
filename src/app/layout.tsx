@@ -5,6 +5,14 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Professoryx — Prepare aulas com IA',
   description: 'App com IA que prepara aulas instantaneamente para professores, gerando planos de aula, slides e apresentações.',
+  icons: {
+    icon: [
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/apple-icon.png',
+  },
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({
