@@ -50,7 +50,7 @@ INSTRUÇÕES:
 ESTRUTURA DE CADA SLIDE:
 Cada slide deve seguir esta estrutura (nesta ordem):
 
-a) PARÁGRAFO INTRODUTÓRIO: 1-2 frases em texto corrido que contextualizem o conceito do slide de forma clara e direta.
+a) PARÁGRAFO EXPLICATIVO: 2-3 frases em texto corrido que contextualizem o conceito do slide de forma clara e direta.
 
 b) PONTOS-CHAVE: Liste os pontos principais em tópicos com marcadores (•). Seja objetivo — cada tópico deve ter 1 linha, no máximo 2. Use sub-itens com travessão (-) apenas quando realmente necessário.
 
