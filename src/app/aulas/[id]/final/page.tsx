@@ -50,7 +50,34 @@ export default function FinalAulaPage() {
     )
   }
 
-  const isReady = aula.status === 'apresentacao-pronta'
+  const [downloading, setDownloading] = useState(false)
+
+  async function handleDownload() {
+    setDownloading(true)
+    try {
+      const res = await fetch(`/api/aulas/${params.id}/gerar-gamma`, { method: 'POST' })
+      if (res.ok) {
+        const blob = await res.blob()
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `${aula?.tituloAula || aula?.tema || 'apresentacao'}.pptx`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url)
+        toast.success('Apresentação baixada!')
+      } else {
+        toast.error('Erro ao gerar apresentação')
+      }
+    } catch {
+      toast.error('Erro ao gerar apresentação')
+    } finally {
+      setDownloading(false)
+    }
+  }
+
+  const isReady = aula.status === 'apresentacao-pronta' || aula.status === 'conteudo-gerado'
   const isGenerating = aula.status === 'gerando-apresentacao'
   const isError = aula.status === 'erro'
 
@@ -109,29 +136,23 @@ export default function FinalAulaPage() {
         {/* Actions */}
         {isReady && (
           <div className="space-y-3 mb-8">
-            {aula.gammaPreviewUrl && (
-              <a
-                href={aula.gammaPreviewUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary w-full py-3.5 text-base justify-center"
-              >
-                <Eye className="w-5 h-5" />
-                Visualizar Apresentação
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            )}
-            {aula.gammaDownloadUrl && (
-              <a
-                href={aula.gammaDownloadUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-accent w-full py-3.5 text-base justify-center"
-              >
-                <Download className="w-5 h-5" />
-                Baixar Apresentação
-              </a>
-            )}
+            <button
+              onClick={handleDownload}
+              disabled={downloading}
+              className="btn-primary w-full py-3.5 text-base justify-center"
+            >
+              {downloading ? (
+                <>
+                  <LoadingSpinner size="sm" />
+                  Gerando PPTX...
+                </>
+              ) : (
+                <>
+                  <Download className="w-5 h-5" />
+                  Baixar Apresentação (.pptx)
+                </>
+              )}
+            </button>
           </div>
         )}
 

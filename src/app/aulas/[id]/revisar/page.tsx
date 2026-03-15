@@ -120,10 +120,22 @@ export default function RevisarAulaPage() {
     try {
       const res = await fetch(`/api/aulas/${params.id}/gerar-gamma`, { method: 'POST' })
       if (res.ok) {
-        const data = await res.json()
-        setAula(data)
-        toast.success('Apresentação gerada com sucesso!')
-        router.push(`/aulas/${params.id}/final`)
+        const blob = await res.blob()
+        const disposition = res.headers.get('Content-Disposition') || ''
+        const filenameMatch = disposition.match(/filename="?(.+?)"?$/)
+        const filename = filenameMatch ? decodeURIComponent(filenameMatch[1]) : `${aula?.tituloAula || aula?.tema || 'apresentacao'}.pptx`
+
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url)
+
+        toast.success('Apresentação baixada com sucesso!')
+        fetchAula()
       } else {
         toast.error('Erro ao gerar apresentação')
       }

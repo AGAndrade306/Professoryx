@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { generatePresentation, checkGenerationStatus } from '@/services/gamma'
+import { generatePptx } from '@/services/pptx'
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const aula = await prisma.aula.findUnique({
-      where: { id },
+    const userId = request.headers.get('x-user-id')!
+
+    const aula = await prisma.aula.findFirst({
+      where: { id, userId },
       include: { materia: true, slides: { orderBy: { numero: 'asc' } } },
     })
 
@@ -16,34 +18,31 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
     await prisma.aula.update({ where: { id }, data: { status: 'gerando-apresentacao' } })
 
-    // Generate presentation
-    const result = await generatePresentation({
-      titulo: aula.tituloAula || aula.tema,
-      slides: aula.slides.map(s => ({ titulo: s.titulo, conteudo: s.conteudo })),
-      estiloVisual: aula.materia.estiloVisualPadrao,
-    })
+    const buffer = await generatePptx(
+      aula.tituloAula || aula.tema,
+      aula.slides.map(s => ({ titulo: s.titulo, conteudo: s.conteudo })),
+    )
 
     await prisma.aula.update({
       where: { id },
-      data: { gammaGenerationId: result.generationId },
+      data: { status: 'apresentacao-pronta' },
     })
 
-    // Poll for completion (in production, use webhooks or SSE)
-    const status = await checkGenerationStatus(result.generationId)
-
-    const updatedAula = await prisma.aula.update({
-      where: { id },
-      data: {
-        status: status.status === 'completed' ? 'apresentacao-pronta' : 'erro',
-        gammaPreviewUrl: status.previewUrl || null,
-        gammaDownloadUrl: status.downloadUrl || null,
+    return new NextResponse(new Uint8Array(buffer), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'Content-Disposition': `attachment; filename="${encodeURIComponent(aula.tituloAula || aula.tema)}.pptx"`,
       },
-      include: { materia: true, slides: { orderBy: { numero: 'asc' } } },
     })
-
-    return NextResponse.json(updatedAula)
   } catch (error) {
-    console.error('Error generating gamma presentation:', error)
+    console.error('Error generating presentation:', error)
+
+    try {
+      const { id } = await params
+      await prisma.aula.update({ where: { id }, data: { status: 'erro' } })
+    } catch {}
+
     return NextResponse.json({ error: 'Erro ao gerar apresentação' }, { status: 500 })
   }
 }

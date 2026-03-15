@@ -47,18 +47,16 @@ INSTRUÇÕES:
 6. Mantenha coerência e progressão entre os slides.
 7. Use terminologia correta quando a matéria for técnica.
 8. NÃO invente informações — baseie-se no material fornecido, mas elabore e explique os conceitos com profundidade.
-9. Cada slide deve ter no mínimo 150 palavras de conteúdo.
+ESTRUTURA DE CADA SLIDE:
+Cada slide deve seguir esta estrutura (nesta ordem):
 
-ESTRUTURA OBRIGATÓRIA DE CADA SLIDE:
-Cada slide DEVE seguir esta estrutura de conteúdo (nesta ordem):
+a) PARÁGRAFO INTRODUTÓRIO: 1-2 frases em texto corrido que contextualizem o conceito do slide de forma clara e direta.
 
-a) PARÁGRAFO EXPLICATIVO: Comece sempre com 2-4 frases explicativas em texto corrido que introduzam e contextualizem o conceito do slide. Esse parágrafo deve ser claro, didático e dar ao aluno uma compreensão geral antes de entrar nos detalhes.
+b) PONTOS-CHAVE: Liste os pontos principais em tópicos com marcadores (•). Seja objetivo — cada tópico deve ter 1 linha, no máximo 2. Use sub-itens com travessão (-) apenas quando realmente necessário.
 
-b) PONTOS-CHAVE: Liste os pontos principais em tópicos com marcadores (•). Cada tópico pode ter sub-itens com travessão (-) quando necessário para detalhar.
+c) EXEMPLO PRÁTICO: Inclua um exemplo concreto introduzido por "Exemplo:" — use situações reais, dados ou cenários profissionais.
 
-c) EXEMPLO PRÁTICO: Inclua pelo menos um exemplo concreto e realista, introduzido por "Exemplo:" — que ilustre o conceito na prática. Use dados, nomes de empresas, situações do dia a dia ou cenários profissionais reais.
-
-d) DICA OU DESTAQUE (quando aplicável): Inclua uma "Dica:" ou "Importante:" com uma observação prática, alerta ou recomendação relevante para o aluno.
+d) DICA OU DESTAQUE (quando aplicável): Uma "Dica:" ou "Importante:" curta e prática.
 
 IMPORTANTE: Extraia e incorpore dados concretos, estatísticas, datas, nomes, exemplos reais e citações do material de referência coletado acima. Não generalize — use as informações específicas das fontes.
 
