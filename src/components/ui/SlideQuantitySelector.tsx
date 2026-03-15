@@ -46,6 +46,7 @@ export default function SlideQuantitySelector({
     <div ref={containerRef} className="flex flex-col items-center gap-3">
       <div className="flex items-center gap-4">
         <button
+          type="button"
           onClick={decrement}
           disabled={value <= min}
           className="p-2 rounded-lg border border-border-subtle hover:border-primary hover:bg-primary/5 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
@@ -72,6 +73,7 @@ export default function SlideQuantitySelector({
         </div>
 
         <button
+          type="button"
           onClick={increment}
           disabled={value >= max}
           className="p-2 rounded-lg border border-border-subtle hover:border-primary hover:bg-primary/5 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
