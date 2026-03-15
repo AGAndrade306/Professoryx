@@ -1,5 +1,8 @@
 {
   "expo": {
+    "android": {
+      "package": "com.professoryx.app"
+    },
     "extra": {
       "eas": {
         "projectId": "17e9aa55-1c05-420e-aba7-51de33c77f74"
